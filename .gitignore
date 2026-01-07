@@ -1,0 +1,32 @@
+# --- Build Artifacts (Binaries & Objects) ---
+build/
+bin/
+obj/
+*.o
+*.obj
+
+# --- Executables (Windows & Linux) ---
+*.exe
+*.dll
+*.so
+*.out
+*.a
+*.lib
+# Specific target name from your Makefile
+app
+
+# --- VS Code Settings ---
+# Ignore .vscode because it often contains absolute paths (like C:/msys64...)
+# that will break on other people's computers.
+.vscode/
+
+# --- OS Generated Files ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# --- Data Files (Optional) ---
+# If you generate large datasets for the regression, don't upload them.
+*.csv
+*.dat
+data/
