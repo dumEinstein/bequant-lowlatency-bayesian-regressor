@@ -9,4 +9,5 @@ class OLSRegressor{
     public:
         void fit(Matrix X, Matrix y);
         Matrix predict(Matrix X) const; 
+        double get_mse() const{return mse;}
 };
