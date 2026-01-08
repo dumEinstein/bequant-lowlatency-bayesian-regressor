@@ -34,3 +34,18 @@ Matrix Matrix::transpose() const {
     }
     return result;
 }
+
+Matrix Matrix::trans_mul(const Matrix& other) const {
+    if (row != other.row) {
+        throw std::invalid_argument("Incompatible matrix dimensions for transposed multiplication");
+    }
+    Matrix result(col, other.col);
+    for (int j = 0; j < other.col; ++j) {
+        for (int i = 0; i < col; ++i) {
+            for (int k = 0; k < row; ++k) {
+                result(i, j) += (*this)(k, i) * other(k, j);
+            }
+        }
+    }
+    return result;
+}

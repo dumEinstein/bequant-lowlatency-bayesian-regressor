@@ -26,4 +26,5 @@ class Matrix{
 
         Matrix mul(const Matrix& other) const;
         Matrix transpose() const;
+        Matrix trans_mul(const Matrix& other) const; 
 };

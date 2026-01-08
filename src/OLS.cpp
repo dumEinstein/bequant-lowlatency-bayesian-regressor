@@ -1,24 +1,15 @@
 #include "OLS.hpp"
 
 
-void OLSRegressor::fit(Matrix X, Matrix y){
+void OLSRegressor::fit(const Matrix& X, const Matrix& y){
     if (X.rows() != y.rows()){
         throw std::invalid_argument("Invalid dimensions: X rows must match y rows");
     }
     coeffs.resize(X.cols());
-    //finding XTX 
-    Matrix XTX(X.cols(), X.cols());
-    for (int i = 0; i < X.cols(); ++i){
-        for (int j = 0; j < X.cols(); ++j){
-            double sum = 0.0;
-            for (int k = 0; k < X.rows(); ++k){
-                sum += X(k, i) * X(k, j);
-            }
-            XTX(i, j) = sum;
-        }
-    }
+    //finding XTX
+    Matrix XTX = X.trans_mul(X);
     //finding XTy
-    Matrix XTy(X.transpose().mul(y));
+    Matrix XTy = X.trans_mul(y);
     //calculating coefficients using normal equation coeffs = (XTX)^-1 * XTy
     //Using Gaussian elimination to solve for coeffs for now (will optimize later)
     int n = XTX.rows();
@@ -31,6 +22,7 @@ void OLSRegressor::fit(Matrix X, Matrix y){
     for (int i = 0; i < n; ++i){
         augmented(i, n) = XTy(i, 0);
     }
+    //To make gaussian elimation cache friendly
     std::vector<double> pivot_col_factors(n); 
 
     for (int i = 0; i < n; ++i) {
@@ -69,7 +61,7 @@ void OLSRegressor::fit(Matrix X, Matrix y){
     mse = error_sum / y.rows();
 }
 
-Matrix OLSRegressor::predict(Matrix X) const{
+Matrix OLSRegressor::predict(const Matrix& X) const{
     if (X.cols() != coeffs.size()){
         throw std::invalid_argument("Invalid dimensions: X columns must match number of coefficients");
     }
